@@ -1,0 +1,22 @@
+{
+  "name": "Systori",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron-webpack dev",
+    "compile": "electron-webpack",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "dependencies": {
+    "electron-store": "5.1.0",
+    "source-map-support": "0.5.16"
+  },
+  "devDependencies": {
+    "electron": "7.1.11",
+    "electron-builder": "22.2.0",
+    "electron-webpack": "2.7.4",
+    "webpack": "4.41.5"
+  },
+  "postinstall": "electron-builder install-app-deps"
+}
