@@ -11,6 +11,7 @@
   "dependencies": {
     "about-window": "^1.13.2",
     "electron-context-menu": "^0.16.0",
+    "electron-dl": "^3.0.0",
     "electron-store": "5.1.0",
     "source-map-support": "^0.5.16"
   },

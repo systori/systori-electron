@@ -3,7 +3,9 @@
 import { app, BrowserWindow, session, screen, Menu } from 'electron'
 import * as path from 'path'
 import { format as formatUrl } from 'url'
+const electronDl = require('electron-dl');
 
+electronDl();
 const Store = require('electron-store');
 const store = new Store();
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -11,6 +13,21 @@ const contextMenu = require('electron-context-menu');
 const openAboutWindow = require('about-window').default;
 
 contextMenu({
+  prepend: (defaultActions, params, browserWindow) => [
+		{
+			label: 'Zurück',
+			click: () => {
+				browserWindow.webContents.goBack();
+			}
+    },
+    {
+			label: 'Vorwärts',
+			click: () => {
+				browserWindow.webContents.goForward();
+			}
+		}
+
+  ],
 	labels: {
     copy: 'Kopieren',
     paste: 'Einfügen',
@@ -41,40 +58,7 @@ const menu = Menu.buildFromTemplate([
   // { role: 'fileMenu' }
   {
       label: 'Datei',
-      submenu: [{
-              label: 'Neu',
-              click: function(menuItem, currentWindow) {
-                  if (currentWindow)
-                      currentWindow.webContents.send('new');
-              },
-              accelerator: 'Ctrl+N'
-          },
-          {
-              type: 'separator'
-          },
-          {
-              label: 'Export',
-              submenu: [{
-                      label: 'als JPEG',
-                      click: function(menuItem, currentWindow) {
-                          if (currentWindow)
-                              currentWindow.webContents.send('has-color-stamp-exportjpeg');
-                      },
-                      accelerator: 'Ctrl+Shift+J'
-                  },
-                  {
-                      label: 'als PDF',
-                      click: function(menuItem, currentWindow) {
-                          if (currentWindow)
-                              currentWindow.webContents.send('has-color-stamp-exportpdf');
-                      },
-                      accelerator: 'Ctrl+Shift+P'
-                  }
-              ]
-          },
-          {
-              type: 'separator'
-          },
+      submenu: [
           {
               label: 'Beenden',
               click: () =>
@@ -89,17 +73,17 @@ const menu = Menu.buildFromTemplate([
               label: 'Zurück',
               click: function(menuItem, currentWindow) {
                   if (currentWindow)
-                      currentWindow.webContents.send('back');
+                      currentWindow.webContents.goBack();
               },
-              accelerator: 'Ctrl+Z'
+              accelerator: 'CommandOrControl+Left'
           },
           {
-              label: 'Wiederherstellen',
+              label: 'Vorwärts',
               click: function(menuItem, currentWindow) {
                   if (currentWindow)
-                      currentWindow.webContents.send('redo');
+                      currentWindow.webContents.goForward();
               },
-              accelerator: 'Ctrl+Y'
+              accelerator: 'CommandOrControl+Right'
           },
       ]
   },
